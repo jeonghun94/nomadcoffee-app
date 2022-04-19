@@ -1,10 +1,25 @@
 import React, { useRef } from "react";
-import { TextInput, Platform } from "react-native";
-import { KeyboardAvoidingView } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import AuthButton from "../components/auth/AuthButton";
 import AuthLayout from "../components/auth/AuthLayout";
+import { TextInput } from "../components/auth/AuthShared";
 
 export default function () {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+    },
+  });
+  const onSubmit = (data) => console.log(data);
+
   const lastNameRef = useRef();
   const usernameRef = useRef();
   const emailRef = useRef();
@@ -18,61 +33,119 @@ export default function () {
   };
   return (
     <AuthLayout>
-      <KeyboardAvoidingView
-        style={{
-          width: "100%",
+      <Controller
+        control={control}
+        rules={{
+          required: true,
         }}
-        behavior="padding"
-        keyboardVerticalOffset={Platform.OS === "ios" ? 30 : 0}
-      >
-        <TextInput
-          autoFocus
-          placeholder="First Name"
-          placeholderTextColor="gray"
-          returnKeyType="next"
-          style={{ backgroundColor: "white", width: "100%" }}
-          onSubmitEditing={() => onNext(lastNameRef)}
-        />
-        <TextInput
-          ref={lastNameRef}
-          placeholder="Last Name"
-          placeholderTextColor="gray"
-          returnKeyType="next"
-          style={{ backgroundColor: "white", width: "100%" }}
-          onSubmitEditing={() => onNext(usernameRef)}
-        />
-        <TextInput
-          ref={usernameRef}
-          placeholder="Username"
-          placeholderTextColor="gray"
-          returnKeyType="next"
-          style={{ backgroundColor: "white", width: "100%" }}
-          onSubmitEditing={() => onNext(emailRef)}
-        />
-        <TextInput
-          ref={emailRef}
-          placeholder="Email"
-          placeholderTextColor="gray"
-          keyboardType="email-address"
-          returnKeyType="next"
-          style={{ backgroundColor: "white", width: "100%" }}
-          onSubmitEditing={() => onNext(passwordRef)}
-        />
-        <TextInput
-          ref={passwordRef}
-          placeholder="Password"
-          placeholderTextColor="gray"
-          secureTextEntry
-          returnKeyType="done"
-          style={{ backgroundColor: "white", width: "100%" }}
-          onSubmitEditing={onDone}
-        />
-        <AuthButton
-          text="Create Account"
-          disabled={true}
-          onPress={() => null}
-        />
-      </KeyboardAvoidingView>
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            autoFocus
+            placeholder="First Name"
+            placeholderTextColor="gray"
+            returnKeyType="next"
+            onSubmitEditing={() => onNext(lastNameRef)}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="firstName"
+      />
+      {errors.firstName && <Text>This is required.</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            ref={lastNameRef}
+            placeholder="Last Name"
+            placeholderTextColor="gray"
+            returnKeyType="next"
+            onSubmitEditing={() => onNext(usernameRef)}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="lastName"
+      />
+      {errors.lastName && <Text>This is required.</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            ref={usernameRef}
+            placeholder="Username"
+            placeholderTextColor="gray"
+            returnKeyType="next"
+            onSubmitEditing={() => onNext(emailRef)}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="username"
+      />
+      {errors.username && <Text>This is required.</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            ref={emailRef}
+            placeholder="Email"
+            placeholderTextColor="gray"
+            keyboardType="email-address"
+            returnKeyType="next"
+            onSubmitEditing={() => onNext(passwordRef)}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="email"
+      />
+      {errors.email && <Text>This is required.</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            ref={passwordRef}
+            placeholder="Password"
+            placeholderTextColor="gray"
+            secureTextEntry
+            returnKeyType="done"
+            onSubmitEditing={handleSubmit(onSubmit)}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            // onSubmitEditing={onDone}
+          />
+        )}
+        name="password"
+      />
+      {errors.password && <Text>This is required.</Text>}
+
+      <AuthButton
+        text="Create Account"
+        disabled={false}
+        onPress={handleSubmit(onSubmit)}
+      />
     </AuthLayout>
   );
 }

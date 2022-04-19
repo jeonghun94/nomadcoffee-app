@@ -8,6 +8,7 @@ import AuthLayout from "../components/auth/AuthLayout";
 const LoginText = styled.Text`
   color: ${colors.blue};
   font-size: 14px;
+  text-align: center;
 `;
 
 // navigation 인자를 전달 받아야함
