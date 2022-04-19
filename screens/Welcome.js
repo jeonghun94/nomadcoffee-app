@@ -1,15 +1,29 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
+import { colors } from "../colors";
+import AuthButton from "../components/auth/AuthButton";
+import AuthLayout from "../components/auth/AuthLayout";
+
+const LoginText = styled.Text`
+  color: ${colors.blue};
+  font-size: 14px;
+`;
 
 // navigation 인자를 전달 받아야함
 export default function ({ navigation }) {
+  const goCreateAccount = () => navigation.navigate("CreateAccount");
+  const goLogin = () => navigation.navigate("Login");
   return (
-    <View>
-      <Text>Welcome</Text>
-      {/* touchableOpacity 에서 navigation.navigate 를 호출하면 스택이 쌓임 */}
-      <TouchableOpacity onPress={() => navigation.navigate("CreateAccount")}>
-        <Text>Go to CreateAccounts</Text>
+    <AuthLayout>
+      <AuthButton
+        text="Crate New Account"
+        disabled={false}
+        onPress={goCreateAccount}
+      />
+      <TouchableOpacity onPress={goLogin}>
+        <LoginText>Login</LoginText>
       </TouchableOpacity>
-    </View>
+    </AuthLayout>
   );
 }
