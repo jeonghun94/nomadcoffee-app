@@ -13,7 +13,6 @@ export default function StackNavFactory({ screenName }) {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
         headerBackTitleVisible: false,
         headerTintColor: "white",
         headerStyle: {

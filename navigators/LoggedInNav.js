@@ -14,16 +14,19 @@ const Tabs = createBottomTabNavigator();
 export default function LoggedInNav() {
   return (
     <Tabs.Navigator
-      tabBarOptions={{
-        showLabel: false,
-        style: {
-          borderTopColor: "rgba(255, 255, 255, 0.3)",
+      //   borderTopColor: "rgba(255, 255, 255, 0.3)",
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
           backgroundColor: "black",
+          borderTopColor: "rgba(255, 255, 255, 0.3)",
         },
+        tabBarActiveTintColor: "white",
       }}
     >
       <Tabs.Screen
-        name="Feed"
+        name="TabFeed"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"home"} color={color} focused={focused} />
@@ -33,7 +36,7 @@ export default function LoggedInNav() {
         {() => <StackNavFactory screenName="Feed" />}
       </Tabs.Screen>
       <Tabs.Screen
-        name="Search"
+        name="TabSearch"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"search"} color={color} focused={focused} />
@@ -52,7 +55,7 @@ export default function LoggedInNav() {
         }}
       />
       <Tabs.Screen
-        name="Notifications"
+        name="TabNotifications"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"heart"} color={color} focused={focused} />
@@ -62,7 +65,7 @@ export default function LoggedInNav() {
         {() => <StackNavFactory screenName="Notifications" />}
       </Tabs.Screen>
       <Tabs.Screen
-        name="Me"
+        name="TabMe"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"person"} color={color} focused={focused} />
