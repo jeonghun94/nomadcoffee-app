@@ -1,24 +1,76 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import AuthButton from "../components/auth/AuthButton";
 import AuthLayout from "../components/auth/AuthLayout";
 import { TextInput } from "../components/auth/AuthShared";
 
-export default function () {
+const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount(
+    $name: String!
+    $location: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    createAccount(
+      name: $name
+      location: $location
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      ok
+      error
+    }
+  }
+`;
+
+export default function ({ navigation }) {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       username: "",
+      location: "",
       email: "",
       password: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+
+  const onCompleted = (data) => {
+    const {
+      createAccount: { ok },
+    } = data;
+    const { username, password } = getValues();
+    if (ok) {
+      navigation.navigate("Login", {
+        username,
+        password,
+      });
+    }
+  };
+  const [createAccountMutation, { loading }] = useMutation(
+    CREATE_ACCOUNT_MUTATION,
+    {
+      onCompleted,
+    }
+  );
+
+  const onSubmit = (data) => {
+    console.log(data);
+    if (!loading) {
+      createAccountMutation({
+        variables: {
+          ...data,
+        },
+      });
+    }
+  };
 
   const lastNameRef = useRef();
   const usernameRef = useRef();
@@ -28,9 +80,7 @@ export default function () {
   const onNext = (nextOne) => {
     nextOne?.current?.focus();
   };
-  const onDone = () => {
-    alert("done!");
-  };
+
   return (
     <AuthLayout>
       <Controller
@@ -41,7 +91,7 @@ export default function () {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             autoFocus
-            placeholder="First Name"
+            placeholder="Name"
             placeholderTextColor="gray"
             returnKeyType="next"
             onSubmitEditing={() => onNext(lastNameRef)}
@@ -50,9 +100,9 @@ export default function () {
             value={value}
           />
         )}
-        name="firstName"
+        name="name"
       />
-      {errors.firstName && <Text>This is required.</Text>}
+      {errors.name && <Text>This is required.</Text>}
 
       <Controller
         control={control}
@@ -62,7 +112,7 @@ export default function () {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             ref={lastNameRef}
-            placeholder="Last Name"
+            placeholder="UserName"
             placeholderTextColor="gray"
             returnKeyType="next"
             onSubmitEditing={() => onNext(usernameRef)}
@@ -71,9 +121,9 @@ export default function () {
             value={value}
           />
         )}
-        name="lastName"
+        name="username"
       />
-      {errors.lastName && <Text>This is required.</Text>}
+      {errors.username && <Text>This is required.</Text>}
 
       <Controller
         control={control}
@@ -83,7 +133,7 @@ export default function () {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             ref={usernameRef}
-            placeholder="Username"
+            placeholder="Location"
             placeholderTextColor="gray"
             returnKeyType="next"
             onSubmitEditing={() => onNext(emailRef)}
@@ -92,9 +142,9 @@ export default function () {
             value={value}
           />
         )}
-        name="username"
+        name="location"
       />
-      {errors.username && <Text>This is required.</Text>}
+      {errors.location && <Text>This is required.</Text>}
 
       <Controller
         control={control}
@@ -143,7 +193,7 @@ export default function () {
 
       <AuthButton
         text="Create Account"
-        disabled={false}
+        loading={loading}
         onPress={handleSubmit(onSubmit)}
       />
     </AuthLayout>
