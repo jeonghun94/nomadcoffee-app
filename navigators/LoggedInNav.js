@@ -45,7 +45,7 @@ export default function LoggedInNav() {
       >
         {() => <StackNavFactory screenName="Search" />}
       </Tabs.Screen>
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="Camera"
         component={View}
         options={{
@@ -63,7 +63,7 @@ export default function LoggedInNav() {
         }}
       >
         {() => <StackNavFactory screenName="Notifications" />}
-      </Tabs.Screen>
+      </Tabs.Screen> */}
       <Tabs.Screen
         name="TabMe"
         options={{

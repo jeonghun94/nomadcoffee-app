@@ -11,9 +11,10 @@ export default function Feed({ navigation }) {
         justifyContent: "center",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("Photo")}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate("Photo")}>
         <Text style={{ color: "white" }}>Photo</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <Text style={{ color: "white" }}>Home</Text>
     </View>
   );
 }

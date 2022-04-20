@@ -22,7 +22,7 @@ export default function StackNavFactory({ screenName }) {
       }}
     >
       {screenName === "Feed" ? (
-        <Stack.Screen name={"Feed"} component={Feed} />
+        <Stack.Screen name={"Home"} component={Feed} />
       ) : null}
       {screenName === "Search" ? (
         <Stack.Screen name={"Search"} component={Search} />
@@ -30,8 +30,22 @@ export default function StackNavFactory({ screenName }) {
       {screenName === "Notifications" ? (
         <Stack.Screen name={"Notifications"} component={Notifications} />
       ) : null}
-      {screenName === "Me" ? <Stack.Screen name={"Me"} component={Me} /> : null}
-      <Stack.Screen name="Profile" component={Profile} />
+      {screenName === "Me" ? (
+        <Stack.Screen
+          options={{
+            headerBackTitleVisible: false,
+            headerTintColor: "white",
+            headerStyle: {
+              height: 40,
+              backgroundColor: "black",
+              shadowColor: "black",
+            },
+          }}
+          name={"Profile"}
+          component={Me}
+        />
+      ) : null}
+      {/* <Stack.Screen name="Profile" component={Profile} /> */}
       <Stack.Screen name="Photo" component={Photo} />
     </Stack.Navigator>
   );

@@ -16,15 +16,18 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-export default function Login({ route: { params } }) {
+// export default function Login({ route: { params } }) {
+export default function Login() {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: params ? params?.username : "",
-      password: params ? params?.password : "",
+      // username: params ? params?.username : "",
+      // password: params ? params?.password : "",
+      username: "",
+      password: "",
     },
   });
 
