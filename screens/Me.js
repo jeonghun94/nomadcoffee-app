@@ -69,7 +69,7 @@ export default function Me() {
           alignItems: "center",
           marginTop: -20,
           // backgroundColor: "blue",
-          paddingRight: 40,
+          paddingRight: 30,
         }}
       >
         <Image
@@ -108,7 +108,7 @@ export default function Me() {
           justifyContent: "flex-start",
           alignItems: "left",
           // backgroundColor: "green",
-          marginTop: -15,
+          marginTop: -13,
           marginLeft: 5,
         }}
       >
