@@ -4,6 +4,7 @@ import { Text, View, Image } from "react-native";
 import { isLoggedInVar, tokenVar } from "../apollo";
 import Login from "./Login";
 import { gql, useQuery } from "@apollo/client";
+import styled from "styled-components/native";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($token: String!) {
@@ -16,6 +17,11 @@ const SEE_PROFILE_QUERY = gql`
       totalFollowers
     }
   }
+`;
+
+const ProfileInfoText = styled.Text`
+  color: white;
+  text-align: center;
 `;
 
 export default function Me() {
@@ -68,8 +74,8 @@ export default function Me() {
           justifyContent: "space-between",
           alignItems: "center",
           marginTop: -20,
-          // backgroundColor: "blue",
           paddingRight: 30,
+          // backgroundColor: "blue",
         }}
       >
         <Image
@@ -85,20 +91,16 @@ export default function Me() {
           }
         />
         <View>
-          <Text style={{ color: "white", textAlign: "center" }}>0</Text>
-          <Text style={{ color: "white", textAlign: "center" }}>게시물</Text>
+          <ProfileInfoText>0</ProfileInfoText>
+          <ProfileInfoText>게시물</ProfileInfoText>
         </View>
         <View>
-          <Text style={{ color: "white", textAlign: "center" }}>
-            {data?.seeProfile?.totalFollowers}
-          </Text>
-          <Text style={{ color: "white", textAlign: "center" }}>팔로워</Text>
+          <ProfileInfoText>{data?.seeProfile?.totalFollowers}</ProfileInfoText>
+          <ProfileInfoText>팔로워</ProfileInfoText>
         </View>
         <View>
-          <Text style={{ color: "white", textAlign: "center" }}>
-            {data?.seeProfile?.totalFollowers}
-          </Text>
-          <Text style={{ color: "white", textAlign: "center" }}>팔로잉</Text>
+          <ProfileInfoText>{data?.seeProfile?.totalFollowing}</ProfileInfoText>
+          <ProfileInfoText>팔로잉</ProfileInfoText>
         </View>
       </View>
 
@@ -107,27 +109,23 @@ export default function Me() {
           width: "100%",
           justifyContent: "flex-start",
           alignItems: "left",
-          // backgroundColor: "green",
           marginTop: -13,
           marginLeft: 5,
+          // backgroundColor: "green",
         }}
       >
-        <Text style={{ color: "white", fontSize: 14 }}>
-          {data?.seeProfile?.name}
-        </Text>
+        <ProfileInfoText>{data?.seeProfile?.name}</ProfileInfoText>
       </View>
-      {/* <Text style={{ color: "white" }}>{data?.seeProfile?.avatarURL}</Text> */}
 
       <View
         style={{
           flex: 4.5,
+          width: "100%",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#111",
         }}
-      >
-        {/* <Text>dd</Text> */}
-      </View>
+      ></View>
     </View>
   ) : (
     <Login />
