@@ -38,23 +38,20 @@ export default function Me() {
     <View
       style={{
         flex: 1,
-        marginTop: -30,
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
+        paddingHorizontal: 15,
+        alignItems: "center",
+        justifyContent: "center",
         backgroundColor: "black",
       }}
     >
       <View
         style={{
-          flex: 1,
+          flex: 0.5,
           width: "100%",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "red",
-          marginBottom: 5,
+          // backgroundColor: "red",
         }}
       >
         <Text style={{ color: "white", fontSize: 26, fontWeight: "700" }}>
@@ -68,11 +65,11 @@ export default function Me() {
           flex: 1,
           width: "100%",
           flexDirection: "row",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "blue",
-          paddingVertical: 20,
-          marginLeft: -18,
+          marginTop: -20,
+          // backgroundColor: "blue",
+          paddingRight: 40,
         }}
       >
         <Image
@@ -87,20 +84,37 @@ export default function Me() {
             "https://d1telmomo28umc.cloudfront.net/media/public/avatars/jeongh1021-1617348583.jpg"
           }
         />
-        <Text style={{ color: "white" }}>0</Text>
-        <Text style={{ color: "white" }}>
-          {data?.seeProfile?.totalFollowers}
-        </Text>
-        <Text style={{ color: "white" }}>
-          {data?.seeProfile?.totalFollowers}
-        </Text>
+        <View>
+          <Text style={{ color: "white", textAlign: "center" }}>0</Text>
+          <Text style={{ color: "white", textAlign: "center" }}>게시물</Text>
+        </View>
+        <View>
+          <Text style={{ color: "white", textAlign: "center" }}>
+            {data?.seeProfile?.totalFollowers}
+          </Text>
+          <Text style={{ color: "white", textAlign: "center" }}>팔로워</Text>
+        </View>
+        <View>
+          <Text style={{ color: "white", textAlign: "center" }}>
+            {data?.seeProfile?.totalFollowers}
+          </Text>
+          <Text style={{ color: "white", textAlign: "center" }}>팔로잉</Text>
+        </View>
       </View>
+
       <View
         style={{
-          marginTop: -10,
+          width: "100%",
+          justifyContent: "flex-start",
+          alignItems: "left",
+          // backgroundColor: "green",
+          marginTop: -15,
+          marginLeft: 5,
         }}
       >
-        <Text style={{ color: "white" }}>{data?.seeProfile?.name}</Text>
+        <Text style={{ color: "white", fontSize: 14 }}>
+          {data?.seeProfile?.name}
+        </Text>
       </View>
       {/* <Text style={{ color: "white" }}>{data?.seeProfile?.avatarURL}</Text> */}
 
