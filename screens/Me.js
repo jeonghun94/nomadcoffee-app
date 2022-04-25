@@ -86,9 +86,10 @@ export default function Me() {
             borderWidth: 2,
             borderColor: "white",
           }}
-          source={
-            "https://d1telmomo28umc.cloudfront.net/media/public/avatars/jeongh1021-1617348583.jpg"
-          }
+          resizeMode="contain"
+          source={{
+            uri: "https://d1telmomo28umc.cloudfront.net/media/public/avatars/jeongh1021-1617348583.jpg",
+          }}
         />
         <View>
           <ProfileInfoText>0</ProfileInfoText>

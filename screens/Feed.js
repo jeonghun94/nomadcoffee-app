@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 
@@ -28,6 +28,13 @@ export default function Feed({ navigation }) {
       </View>
     );
   };
+
+  const refresh = async () => {
+    setRefreshing(true);
+    // await refetch();
+    setRefreshing(false);
+  };
+  const [refreshing, setRefreshing] = useState(false);
   return (
     <View
       style={{
@@ -37,11 +44,11 @@ export default function Feed({ navigation }) {
         justifyContent: "center",
       }}
     >
-      {/* <TouchableOpacity onPress={() => navigation.navigate("Photo")}>
-        <Text style={{ color: "white" }}>Photo</Text>
-      </TouchableOpacity> */}
       <ScreenLayout loading={false}>
         <FlatList
+          refreshing={refreshing}
+          onRefresh={refresh}
+          showsVerticalScrollIndicator={false}
           data={data?.seeFeed}
           keyExtractor={(photo) => +photo.id}
           renderItem={renderPhoto}
