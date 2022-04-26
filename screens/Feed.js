@@ -37,7 +37,15 @@ export default function Feed() {
     console.log(shop, "shop");
     return (
       <View style={{ flex: 1, marginVertical: 15 }}>
-        <Text style={{ color: "white", fontSize: 25 }}>{shop.name}</Text>
+        <Text style={{ color: "white", fontSize: 25 }}>
+          {shop.name}
+          {shop.categories.map((category) => (
+            <Text key={category.name} style={{ color: "white", fontSize: 20 }}>
+              &nbsp;({category.name})
+            </Text>
+          ))}
+        </Text>
+
         <Image
           style={{
             width,
@@ -50,11 +58,6 @@ export default function Feed() {
         <Text style={{ color: "white", marginVertical: 8 }}>
           등록자: {shop.user.name}({shop.user.username})
         </Text>
-        {shop.categories.map((category) => (
-          <Text key={category.name} style={{ color: "white", fontSize: 20 }}>
-            {category.name}
-          </Text>
-        ))}
       </View>
     );
   };
