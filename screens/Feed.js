@@ -1,13 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  useWindowDimensions,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, FlatList, Image, useWindowDimensions } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 
 const SEE_COFFEESHOPS = gql`
@@ -32,16 +25,14 @@ const SEE_COFFEESHOPS = gql`
   }
 `;
 
-export default function Feed({ navigation }) {
+export default function Feed() {
   const { data, loading, refetch, fetchMore } = useQuery(SEE_COFFEESHOPS, {
     variables: {
       page: 0,
     },
   });
-  console.log(data, "data");
-  console.log(data?.seeCoffeeShops?.length, "data.seeCoffeeShops");
-  const { width } = useWindowDimensions();
 
+  const { width } = useWindowDimensions();
   const renderPhoto = ({ item: shop }) => {
     console.log(shop, "shop");
     return (
@@ -59,6 +50,11 @@ export default function Feed({ navigation }) {
         <Text style={{ color: "white", marginVertical: 8 }}>
           등록자: {shop.user.name}({shop.user.username})
         </Text>
+        {shop.categories.map((category) => (
+          <Text key={category.name} style={{ color: "white", fontSize: 20 }}>
+            {category.name}
+          </Text>
+        ))}
       </View>
     );
   };
