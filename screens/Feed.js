@@ -1,37 +1,71 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { gql, useQuery } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  useWindowDimensions,
+} from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 
+const SEE_COFFEESHOPS = gql`
+  query seeCoffeeShops($page: Int!) {
+    seeCoffeeShops(page: $page) {
+      id
+      name
+      latitude
+      longitude
+      user {
+        id
+        name
+        username
+      }
+      photos {
+        url
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 export default function Feed({ navigation }) {
-  const data = {
-    seeFeed: [
-      { id: 1, caption: "라라라" },
-      { id: 2, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-      { id: 3, caption: "라라라" },
-    ],
-  };
-  const renderPhoto = ({ item: photo }) => {
+  const { data, loading, refetch, fetchMore } = useQuery(SEE_COFFEESHOPS, {
+    variables: {
+      page: 0,
+    },
+  });
+  console.log(data, "data");
+  console.log(data?.seeCoffeeShops?.length, "data.seeCoffeeShops");
+  const { width } = useWindowDimensions();
+
+  const renderPhoto = ({ item: shop }) => {
+    console.log(shop, "shop");
     return (
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: "white" }}>{photo.caption}</Text>
+      <View style={{ flex: 1, marginVertical: 15 }}>
+        <Text style={{ color: "white", fontSize: 25 }}>{shop.name}</Text>
+        <Image
+          style={{
+            width,
+            height: 230,
+            marginVertical: 5,
+          }}
+          resizeMode="cover"
+          source={{ uri: shop.photos[0].url }}
+        />
+        <Text style={{ color: "white", marginVertical: 8 }}>
+          등록자: {shop.user.name}({shop.user.username})
+        </Text>
       </View>
     );
   };
 
   const refresh = async () => {
     setRefreshing(true);
-    // await refetch();
+    await refetch();
     setRefreshing(false);
   };
   const [refreshing, setRefreshing] = useState(false);
@@ -44,12 +78,20 @@ export default function Feed({ navigation }) {
         justifyContent: "center",
       }}
     >
-      <ScreenLayout loading={false}>
+      <ScreenLayout loading={loading}>
         <FlatList
+          onEndReachedThreshold={0}
+          onEndReached={() =>
+            fetchMore({
+              variables: {
+                page: data?.seeCoffeeShops?.length,
+              },
+            })
+          }
           refreshing={refreshing}
           onRefresh={refresh}
           showsVerticalScrollIndicator={false}
-          data={data?.seeFeed}
+          data={data?.seeCoffeeShops}
           keyExtractor={(photo) => +photo.id}
           renderItem={renderPhoto}
         />
