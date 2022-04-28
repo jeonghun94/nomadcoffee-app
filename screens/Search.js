@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
-  Text,
   View,
   TouchableOpacity,
   TextInput,
@@ -16,6 +15,7 @@ import DismissKeyboard from "../components/DismissKeyboard";
 const SEARCH_COFFEESHOPS_QUERY = gql`
   query ($keyword: String!) {
     searchCoffeeShops(keyword: $keyword) {
+      id
       name
       photos {
         url
@@ -49,14 +49,11 @@ export default function Search({ navigation }) {
     },
   });
 
-  //쿼리 작업해야함 정훈아
   const [searchCoffeeShops, { loading, data, called }] = useLazyQuery(
     SEARCH_COFFEESHOPS_QUERY
   );
 
   const onSubmit = ({ keyword }) => {
-    console.log(keyword);
-
     searchCoffeeShops({
       variables: {
         keyword,
@@ -155,7 +152,7 @@ export default function Search({ navigation }) {
             <FlatList
               numColumns={numColumns}
               data={data?.searchCoffeeShops}
-              keyExtractor={(coffeeShop) => "" + coffeeShop.name}
+              keyExtractor={(coffeeShop) => coffeeShop.id}
               renderItem={renderImage}
             />
           )
