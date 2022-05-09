@@ -17,9 +17,7 @@ const SEARCH_COFFEESHOPS_QUERY = gql`
     searchCoffeeShops(keyword: $keyword) {
       id
       name
-      photos {
-        url
-      }
+      photos
     }
   }
 `;
@@ -64,7 +62,7 @@ export default function Search({ navigation }) {
   const renderImage = ({ item: coffeeShop }) => (
     <TouchableOpacity>
       <Image
-        source={{ uri: coffeeShop.photos[0].url }}
+        source={{ uri: coffeeShop.photos }}
         style={{
           width: width / numColumns,
           height: 120,

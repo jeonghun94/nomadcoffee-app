@@ -15,9 +15,7 @@ const SEE_COFFEESHOPS = gql`
         name
         username
       }
-      photos {
-        url
-      }
+      photos
       categories {
         name
       }
@@ -53,7 +51,7 @@ export default function Feed() {
             marginVertical: 5,
           }}
           resizeMode="cover"
-          source={{ uri: shop.photos[0].url }}
+          source={{ uri: shop.photos }}
         />
         <Text style={{ color: "white", marginVertical: 8 }}>
           등록자: {shop.user.name}({shop.user.username})
